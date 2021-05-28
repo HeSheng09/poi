@@ -2,7 +2,6 @@ package com.sics.poi.intercept;
 
 import com.sics.poi.service.RedisService;
 import org.apache.log4j.Logger;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -25,12 +24,22 @@ public class AuthInterceptor implements HandlerInterceptor {
         // check token
         if (user == null || "".equals(user) || token == null || "".equals(token)) {
             logger.info("invalid user or token");
+
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json; charset=utf-8");
+            response.getWriter().print("{\"state\":0,\"msg\":\"invalid user or token!\"}");
+
             return false;
         } else if (token.equals(redisService.get(user))) {
             logger.info("authority passed!");
             return true;
         } else {
             logger.info("authority failed!");
+
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json; charset=utf-8");
+            response.getWriter().print("{\"state\":0,\"msg\":\"authority failed!\"}");
+
             return false;
         }
     }
