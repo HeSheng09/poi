@@ -27,7 +27,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
-            response.getWriter().print("{\"state\":0,\"msg\":\"invalid user or token!\"}");
+            response.getWriter().print("{\"status\":0,\"msg\":\"invalid user or token!\"}");
 
             return false;
         } else if (token.equals(redisService.get(user))) {
@@ -38,7 +38,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
-            response.getWriter().print("{\"state\":0,\"msg\":\"authority failed!\"}");
+            response.getWriter().print("{\"status\":0,\"msg\":\"authority failed!\"}");
 
             return false;
         }

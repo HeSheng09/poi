@@ -1,5 +1,10 @@
 package com.sics.poi.entity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class POI {
     private String code;
     private String province;
@@ -33,6 +38,45 @@ public class POI {
                 ", check='" + check + '\'' +
                 '}';
     }
+
+    public Map<String, Object> geojson() {
+        Map<String, Object> json = new HashMap<>();
+        json.put("type", "Feature");
+
+        Map<String, Object> geometry = new HashMap<>();
+        geometry.put("type", "Point");
+        List<Double> coordinates = new ArrayList<>();
+        coordinates.add(lon);
+        coordinates.add(lat);
+        geometry.put("coordinates", coordinates);
+        json.put("geometry", geometry);
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("code", code);
+        properties.put("Province", province);
+        properties.put("name", name);
+        properties.put("county", county);
+        properties.put("area", area);
+        properties.put("object", object);
+        properties.put("type", type);
+        properties.put("level", level);
+        properties.put("time", time);
+        properties.put("apartment", apartment);
+        properties.put("check", check);
+        json.put("properties", properties);
+
+        return json;
+    }
+
+//    public String geojson() {
+//        return "{\"type\":\"Feature\"," +
+//                "\"geometry\":{\"type\":\"Point\",\"coordinates\":[" + lon + "," + lat + "]}," +
+//                "\"properties\":{" +
+//                "\"code\":\"" + code + "\",\"Province\":\"" + province + "\",\"name\":\"" + name + "\"," +
+//                "\"county\":\"" + county + "\",\"area\":" + area + ",\"object\":\"" + object + "\"," +
+//                "\"type\":\"" + type + "\",\"level\":\"" + level + "\",\"time\":" + time + "," +
+//                "\"apartment\":\"" + apartment + "\",\"check\":\"" + check + "\"}}";
+//    }
 
     public String getCode() {
         return code;

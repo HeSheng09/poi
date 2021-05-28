@@ -18,6 +18,7 @@ public class RedisConfig {
     private int timeout;
     private String username;
     private String password;
+    private int database;
 
     public String getUsername() {
         return username;
@@ -43,7 +44,7 @@ public class RedisConfig {
     public JedisPool getJedisPool() {
         JedisPoolConfig config = getRedisConfig();
         logger.info("init JedisPool ...");
-        return new JedisPool(config, host, port);
+        return new JedisPool(config, host, port, timeout, String.format("%s:%s", username, password), database);
     }
 
     public String getHost() {

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.sics.poi.dao.POIDao">
+    <resultMap id="baseMap" type="com.sics.poi.entity.POI">
+        <id column="code" jdbcType="VARCHAR" property="code" javaType="String"/>
+        <result column="Province" jdbcType="VARCHAR" property="province" javaType="String"/>
+        <result column="name" jdbcType="VARCHAR" property="name" javaType="String"/>
+        <result column="county" jdbcType="VARCHAR" property="county" javaType="String"/>
+        <result column="area" jdbcType="VARCHAR" property="area" javaType="float"/>
+        <result column="object" jdbcType="VARCHAR" property="object" javaType="String"/>
+        <result column="type" jdbcType="VARCHAR" property="type" javaType="String"/>
+        <result column="level" jdbcType="VARCHAR" property="level" javaType="String"/>
+        <result column="time" jdbcType="VARCHAR" property="time" javaType="String"/>
+        <result column="apartment" jdbcType="VARCHAR" property="apartment" javaType="String"/>
+        <result column="lon" jdbcType="VARCHAR" property="lon" javaType="float"/>
+        <result column="lat" jdbcType="VARCHAR" property="lat" javaType="float"/>
+        <result column="check" jdbcType="VARCHAR" property="check" javaType="String"/>
+
+    </resultMap>
+
+    <select id="getPOIByCode" parameterType="String" resultMap="baseMap">
+        SELECT *
+        FROM bhq
+        WHERE code = #{code};
+    </select>
+
+    <select id="getPOIByName" parameterType="String" resultMap="baseMap">
+        SELECT *
+        FROM bhq
+        WHERE name = #{name};
+    </select>
+
+    <select id="getPOIsByProvince" parameterType="String" resultMap="baseMap">
+        SELECT *
+        FROM bhq
+        WHERE Province = #{province};
+    </select>
+
+
+</mapper>
