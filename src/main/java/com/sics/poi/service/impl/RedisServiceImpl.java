@@ -59,4 +59,35 @@ public class RedisServiceImpl implements RedisService {
         return result;
     }
 
+    @Override
+    public Long ttl(String key) {
+        Long result = null;
+        Jedis jedis = null;
+        try {
+            jedis = getResource();
+            result = jedis.ttl(key);
+            logger.info("Redis ttl - " + key + " " + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Redis ttl error: " + e.getMessage() + " - " + key + " " + result);
+        } finally {
+            returnResource(jedis);
+        }
+        return result;
+    }
+
+    @Override
+    public void pexpire(String key, Long milliseconds) {
+        Jedis jedis = null;
+        try {
+            jedis = getResource();
+            jedis.pexpire(key, milliseconds);
+            logger.info("Redis expire  success - " + key + ", milliseconds:" + milliseconds);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Redis expire error: " + e.getMessage() + " - " + key + ", milliseconds:" + milliseconds);
+        } finally {
+            returnResource(jedis);
+        }
+    }
 }

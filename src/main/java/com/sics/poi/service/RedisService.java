@@ -11,4 +11,8 @@ public interface RedisService {
     public void set(String key, String value);
 
     public String get(String key);
+
+    public Long ttl(String key);
+
+    public void pexpire(String key, Long milliseconds);
 }
