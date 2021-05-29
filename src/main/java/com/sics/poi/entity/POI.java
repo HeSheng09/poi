@@ -19,7 +19,7 @@ public class POI {
     private double lon;
     private double lat;
     private String check;
-
+    private String imagePath;
     @Override
     public String toString() {
         return "POI{" +
@@ -36,6 +36,7 @@ public class POI {
                 ", lon=" + lon +
                 ", lat=" + lat +
                 ", check='" + check + '\'' +
+                ", imagePath='" + imagePath + '\'' +
                 '}';
     }
 
@@ -63,6 +64,7 @@ public class POI {
         properties.put("time", time);
         properties.put("apartment", apartment);
         properties.put("check", check);
+        properties.put("imagePath",imagePath);
         json.put("properties", properties);
 
         return json;
@@ -182,5 +184,11 @@ public class POI {
         this.check = check;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
 
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 }

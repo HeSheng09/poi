@@ -16,7 +16,7 @@
         <result column="lon" jdbcType="VARCHAR" property="lon" javaType="float"/>
         <result column="lat" jdbcType="VARCHAR" property="lat" javaType="float"/>
         <result column="check" jdbcType="VARCHAR" property="check" javaType="String"/>
-
+        <result column="imagePath" jdbcType="VARCHAR" property="imagePath" javaType="String"/>
     </resultMap>
 
     <select id="getPOIByCode" parameterType="String" resultMap="baseMap">
