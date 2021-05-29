@@ -7,15 +7,14 @@ import org.apache.log4j.Logger;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -26,43 +25,58 @@ public class POIController {
 
     private static final Logger logger = Logger.getLogger(POIController.class);
 
-    @GetMapping(path = "/code")
+    @GetMapping(path = "/code/{code}")
     @ResponseBody
-    public Map<String, Object> getPOIByCode(String code) {
+    public Map<String, Object> getPOIByCode(@PathVariable("code") String code) {
         POI poi = poiService.getPOIByCode(code);
-        logger.info(String.format("ask for a POI by code: %s",code));
-        return ResponseUtil.response(1, poi.geojson());
+        if (poi == null) {
+            logger.info(String.format("code(%s) didn't exist", code));
+            return ResponseUtil.response(0, null, null);
+        } else {
+            logger.info(String.format("ask for a POI by code: %s", code));
+            return ResponseUtil.response(1, poi.geojson(), poi.getImagePath());
+        }
     }
 
-    @GetMapping(path = "/name")
+    @GetMapping(path = "/name/{name}")
     @ResponseBody
-    public Map<String, Object> getPOIByName(String name) {
+    public Map<String, Object> getPOIByName(@PathVariable("name") String name) {
         POI poi = poiService.getPOIByName(name);
-        logger.info(String.format("ask for a POI by code: %s",name));
-        return ResponseUtil.response(1, poi.geojson());
+        if (poi == null) {
+            logger.info(String.format("name(%s) didn't exist", name));
+            return ResponseUtil.response(0, null, null);
+        } else {
+            logger.info(String.format("ask for a POI by code: %s", name));
+            return ResponseUtil.response(1, poi.geojson(), poi.getImagePath());
+        }
     }
 
-    @GetMapping(path = "/province")
+    @GetMapping(path = "/province/{province}")
     @ResponseBody
-    public Map<String, Object> getPOIsByProvince(String province) {
+    public Map<String, Object> getPOIsByProvince(@PathVariable("province") String province) {
         Map<String, Object> poi = poiService.getPOIsByProvince(province);
-        logger.info(String.format("ask for POIs by code: %s",province));
-        return ResponseUtil.response(1, poi);
+        List<Map<String, Object>> features = (List<Map<String, Object>>) poi.get("POIs");
+        if (features.isEmpty()) {
+            logger.info(String.format("province(%s) didn't exist", province));
+            return ResponseUtil.response(0, null, null);
+        } else {
+            logger.info(String.format("ask for POIs by code: %s", province));
+            return ResponseUtil.response(1, poi, null);
+        }
     }
 
 
-    @GetMapping(path = "/image",produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping(path = "/image", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
     public byte[] getImage(String imageName) throws Exception {
-        String imagepath="./src/main/resources/static/";
-        File file = new File(imagepath+imageName+".jpg");
+        String imagepath = "./src/main/resources/static/";
+        File file = new File(imagepath + imageName + ".jpg");
         FileInputStream inputStream = new FileInputStream(file);
         byte[] bytes = new byte[inputStream.available()];
-        inputStream.read(bytes, 0, inputStream.available());
+        int n_bytes = inputStream.read(bytes, 0, inputStream.available());
         return bytes;
 
     }
-
 
 
 }

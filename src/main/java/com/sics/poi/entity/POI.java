@@ -64,21 +64,11 @@ public class POI {
         properties.put("time", time);
         properties.put("apartment", apartment);
         properties.put("check", check);
-        properties.put("imagePath",imagePath);
+//        properties.put("imagePath",imagePath);
         json.put("properties", properties);
 
         return json;
     }
-
-//    public String geojson() {
-//        return "{\"type\":\"Feature\"," +
-//                "\"geometry\":{\"type\":\"Point\",\"coordinates\":[" + lon + "," + lat + "]}," +
-//                "\"properties\":{" +
-//                "\"code\":\"" + code + "\",\"Province\":\"" + province + "\",\"name\":\"" + name + "\"," +
-//                "\"county\":\"" + county + "\",\"area\":" + area + ",\"object\":\"" + object + "\"," +
-//                "\"type\":\"" + type + "\",\"level\":\"" + level + "\",\"time\":" + time + "," +
-//                "\"apartment\":\"" + apartment + "\",\"check\":\"" + check + "\"}}";
-//    }
 
     public String getCode() {
         return code;

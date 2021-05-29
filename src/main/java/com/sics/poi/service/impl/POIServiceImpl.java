@@ -28,15 +28,30 @@ public class POIServiceImpl implements POIService {
 
     @Override
     public Map<String, Object> getPOIsByProvince(String province) {
+        List<POI> pois = poiDao.getPOIsByProvince(province);
+
+        Map<String, Object> result = new HashMap<>();
+
+        // 以列表形式返回一批数据
+        List<Map<String, Object>> POIs = new ArrayList<>();
+        for (POI poi : pois) {
+            Map<String, Object> feature = new HashMap<>();
+            feature.put("feature", poi.geojson());
+            feature.put("opr", poi.getImagePath());
+            POIs.add(feature);
+        }
+        result.put("POIs", POIs);
+
+        // 转换为一个整合的geojson
         Map<String, Object> json = new HashMap<>();
         List<Map<String, Object>> features = new ArrayList<>();
-        List<POI> pois = poiDao.getPOIsByProvince(province);
-        for (POI poi :
-                pois) {
+        for (POI poi : pois) {
             features.add(poi.geojson());
         }
         json.put("features", features);
         json.put("type", "FeatureCollection");
-        return json;
+
+        result.put("geojson", json);
+        return result;
     }
 }
