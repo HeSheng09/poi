@@ -40,6 +40,11 @@ public class POI {
                 '}';
     }
 
+    /** 转换为符合geojson标准的的结构（不包括imagePath字段）。
+    * @author hesheng
+    * @date 2021/5/30
+    * @return  java.util.Map
+    */
     public Map<String, Object> geojson() {
         Map<String, Object> json = new HashMap<>();
         json.put("type", "Feature");

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,12 @@ public class POIController {
 
     private static final Logger logger = Logger.getLogger(POIController.class);
 
+    /** 根据code获取POI
+    * @author hesheng
+    * @date 2021/5/30
+    * @param code POI代码
+    * @return  java.util.Map
+    */
     @GetMapping(path = "/code/{code}")
     @ResponseBody
     public Map<String, Object> getPOIByCode(@PathVariable("code") String code) {
@@ -38,6 +45,12 @@ public class POIController {
         }
     }
 
+    /** 根据name获取POI
+    * @author hesheng
+    * @date 2021/5/30
+    * @param name POI名称
+    * @return  java.util.Map
+    */
     @GetMapping(path = "/name/{name}")
     @ResponseBody
     public Map<String, Object> getPOIByName(@PathVariable("name") String name) {
@@ -51,6 +64,12 @@ public class POIController {
         }
     }
 
+    /** 根据province获取一组POI
+    * @author hesheng
+    * @date 2021/5/30
+    * @param province 省份简称
+    * @return  java.util.Map
+    */
     @GetMapping(path = "/province/{province}")
     @ResponseBody
     public Map<String, Object> getPOIsByProvince(@PathVariable("province") String province) {
@@ -65,10 +84,16 @@ public class POIController {
         }
     }
 
-
+    /** 根据url获取图片
+    * @author wxc
+    * @date 2021/5/30
+    * @param imageName 图片名称
+    * @return  byte[]
+     * @throws IOException open image file failed
+    */
     @GetMapping(path = "/image", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
-    public byte[] getImage(String imageName) throws Exception {
+    public byte[] getImage(String imageName) throws IOException{
         String imagepath = "./src/main/resources/static/";
         File file = new File(imagepath + imageName + ".jpg");
         FileInputStream inputStream = new FileInputStream(file);
